@@ -1,0 +1,28 @@
+.header{
+  text-align: center; 
+}
+
+.beer-form{
+  width: 60%; 
+  margin: 0 auto; 
+  text-align: center; 
+  border-radius: 20px; 
+}
+
+.beers-list{
+  display: flex; 
+  flex-wrap: wrap; 
+  margin: 20px; 
+  justify-content: center; 
+}
+
+.beer-card{
+  width: 275px; 
+  height: 275px; 
+  margin: 50px; 
+  font-size: 25px; 
+  text-align: center;  
+  border-radius: 15px; 
+  color: white; 
+}
+

@@ -1,14 +1,15 @@
 import React from "react";
+import {Button, CardPanel} from 'react-materialize'; 
 
 const Beer = props => {
   return (
-    <div className="beer-card">
+    <CardPanel className="deep-orange darken-4 beer-card">
       <div className="beer">
         <p>{props.beer.name}</p>
         <p> Likes: {props.beer.likes}</p>
-        <p onClick = {props.like} >Like Here!</p>
+        <Button className = "indigo darken-2" onClick = {props.like} >Like</Button>
       </div>
-    </div>
+    </CardPanel>
   );
 };
 

@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import Header from "./Header";
 import axios from "axios";
 import Beer from "./Beer";
+import {CardPanel, Button} from 'react-materialize'; 
 
 class BeerDisplayAll extends Component {
   constructor() {
     super();
     this.state = {
       beer: [],
-      beerName: ""
+      beerName: "", 
+      errors: ""
     };
   }
 
@@ -19,7 +21,11 @@ class BeerDisplayAll extends Component {
       )
       .then(beers => {
         this.setState({ beer: beers.data });
-      });
+      }).catch(err => {
+          this.setState({
+              errors: "Cannot get beers from the API. Please try again!"
+          })
+      })
   }
 
   onInputChangeHandler = event => {
@@ -58,7 +64,8 @@ class BeerDisplayAll extends Component {
       likes: "0"
     };
 
-    axios
+    if(this.state.beerName){
+        axios
       .post(
         "https://cors-anywhere.herokuapp.com/https://beer.fluentcloud.com/v1/beer",
         newBeer
@@ -72,6 +79,8 @@ class BeerDisplayAll extends Component {
             this.setState({ beer: beers.data, beerName: "" });
           });
       });
+    }
+    
 
     // since the post request does not return the updated list of beers,
     // a new get request has to be made to the API to update the UI without refreshing the page!
@@ -80,21 +89,24 @@ class BeerDisplayAll extends Component {
   render() {
     return (
       <div className="beer-display">
-        <Header />
-        <h3>Have an IPA you want to add to the API?</h3>
+        <Header/>
+        <CardPanel className="beer-form amber">
+        <h4>Have an IPA you want to add to the API?</h4>
         <p>Add a new beer here!</p>
         <form onSubmit={this.onSubmitHandler}>
           <input
+            className = "form-input"
             value={this.state.beerName}
             name="beerName"
             onChange={this.onInputChangeHandler}
             type="text"
-            placeholder="Name of Beer"
           />
-          <button className="beer-form-button" type="submit">
+          <Button className="beer-form-button orange darken-4" type="submit">
             Add it Now!
-          </button>
+          </Button>
         </form>
+        </CardPanel>
+        <div className = "beers-list">
         {this.state.beer.map(beer => {
           return (
             <Beer
@@ -104,6 +116,7 @@ class BeerDisplayAll extends Component {
             />
           );
         })}
+        </div>
       </div>
     );
   }
