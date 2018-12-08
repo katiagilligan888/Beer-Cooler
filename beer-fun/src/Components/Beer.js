@@ -5,7 +5,8 @@ const Beer = props => {
     <div className="beer-card">
       <div className="beer">
         <p>{props.beer.name}</p>
-        <p>{props.beer.likes}</p>
+        <p> Likes: {props.beer.likes}</p>
+        <p onClick = {props.like} >Like Here!</p>
       </div>
     </div>
   );

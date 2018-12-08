@@ -28,6 +28,29 @@ class BeerDisplayAll extends Component {
     });
   };
 
+  likeHandler = (id, likes) => {
+    const newLikes = {
+      likes: String(Number(likes) + 1)
+    };
+    axios
+      .put(
+        `https://cors-anywhere.herokuapp.com/https://beer.fluentcloud.com/v1/beer/${id}`,
+        newLikes
+      )
+      .then(beer => {
+        axios
+          .get(
+            "https://cors-anywhere.herokuapp.com/https://beer.fluentcloud.com/v1/beer"
+          )
+          .then(beers => {
+            this.setState({ beer: beers.data });
+          });
+      });
+
+    // since the put request does not return the updated list of beers,
+    // a new get request has to be made to the API to update the UI without refreshing the page!
+  };
+
   onSubmitHandler = event => {
     event.preventDefault();
     const newBeer = {
@@ -73,7 +96,13 @@ class BeerDisplayAll extends Component {
           </button>
         </form>
         {this.state.beer.map(beer => {
-          return <Beer key={beer.id} beer={beer} />;
+          return (
+            <Beer
+              key={beer.id}
+              beer={beer}
+              like={() => this.likeHandler(beer.id, beer.likes)}
+            />
+          );
         })}
       </div>
     );
